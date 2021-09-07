@@ -24,18 +24,19 @@ app.get("/", (req, res)=>{
     res.render('home.ejs');
 })
 
-app.get("/makecampground", async (req, res)=>{
-    const camp = new Campground({
-        title:"test", 
-        price:"20",
-        description:"test",
-        location:"test"
-    });
-    await camp.save();
-    res.redirect("/");
+app.get("/campgrounds", async (req, res)=>{
+    const campgrounds = await Campground.find({});
+    res.render('campgrounds/index', {campgrounds});
 })
 
 
+app.get("/campgrounds/:id", async (req, res)=>{
+    const {id} = req.params;
+    const campground = await Campground.findById(id);
+    res.render('campgrounds/show', {campground});
+})
+
+// listen to //localhost:3000
 app.listen(3000, ()=>{
     console.log("Serving on port 3000")
 })
