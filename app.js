@@ -1,42 +1,83 @@
 const express = require("express");
-
 const path = require("path");
+const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
 const mongoose = require("mongoose");
-const Campground = require('./models/Campground');
+const Campground = require("./models/Campground");
+
+const morgan = require("morgan");
+
 mongoose.connect("mongodb://localhost:27017/yelp-camp", {
-    useNewUrlParser:true,
-    useCreateIndex:true,
-    useUnifiedTopology:true
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
 });
 
-const db= mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"))
-db.once("open",()=>{
-    console.log("Database connected!");
-})
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+  console.log("Database connected!");
+});
 
 const app = express();
 // setup express
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.engine('ejs', ejsMate);
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.urlencoded({ exteneded: true }));
+app.use(methodOverride("_method"));
+app.use(morgan('tiny'));
 
-app.get("/", (req, res)=>{
-    res.render('home.ejs');
-})
+app.get("/", (req, res) => {
+  res.render("home.ejs");
+});
 
-app.get("/campgrounds", async (req, res)=>{
-    const campgrounds = await Campground.find({});
-    res.render('campgrounds/index', {campgrounds});
-})
+app.get("/campgrounds", async (req, res) => {
+  const campgrounds = await Campground.find({});
+  res.render("campgrounds/index", { campgrounds });
+});
 
+app.get("/campgrounds/new", async (req, res) => {
+  res.render("campgrounds/new");
+});
 
-app.get("/campgrounds/:id", async (req, res)=>{
-    const {id} = req.params;
-    const campground = await Campground.findById(id);
-    res.render('campgrounds/show', {campground});
-})
+app.get("/campgrounds/:id", async (req, res) => {
+  const { id } = req.params;
+  const campground = await Campground.findById(id);
+  res.render("campgrounds/show", { campground });
+});
+
+app.get("/campgrounds/:id/edit", async (req, res) => {
+  const { id } = req.params;
+  const campground = await Campground.findById(id);
+  res.render("campgrounds/edit", { campground });
+});
+
+app.post("/campgrounds", async (req, res) => {
+  console.log("Ima here ");
+  const { campground } = req.body;
+  console.log(campground);
+  const camp = new Campground(campground);
+  await camp.save();
+  console.log(camp._id);
+  res.redirect(`/campgrounds/${camp._id}`);
+});
+
+app.put("/campgrounds/:id", async (req, res) => {
+  const { id } = req.params;
+  const campground = await Campground.findByIdAndUpdate(id, {
+    ...req.body.campground,
+  });
+  res.redirect(`/campgrounds/${campground._id}`);
+});
+
+app.delete("/campgrounds/:id", async (req, res) => {
+    const { id } = req.params;
+    await Campground.findByIdAndDelete(id);
+    res.redirect("/campgrounds");
+  });
 
 // listen to //localhost:3000
-app.listen(3000, ()=>{
-    console.log("Serving on port 3000")
-})
+app.listen(3000, () => {
+  console.log("Serving on port 3000");
+});
