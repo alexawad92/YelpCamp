@@ -6,30 +6,33 @@
         <div class="col-6 offset-3">
 
 
-            <form action="/campgrounds" method="POST">
+            <form action="/campgrounds" method="POST" novalidate class="needs-validation">
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" name="campground[title]">
+                    <input type="text" class="form-control" id="title" name="campground[title]" required>
+                    <div class="invalid-feedback">
+                        Campground title is mandatory
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="location" class="form-label">Location</label>
-                    <input type="text" class="form-control" id="location" name="campground[location]">
+                    <input type="text" class="form-control" id="location" name="campground[location]" required>
                 </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Image Url</label>
-                    <input type="text" class="form-control" id="image" name="campground[image]">
+                    <input type="text" class="form-control" id="image" name="campground[image]" required>
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">Price</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="price-label">$</span>
                         <input type="text" class="form-control" id="price" aria-label="price" placeholder="0.00"
-                            aria-describedby="price-label" name="campground[price]">
+                            aria-describedby="price-label" name="campground[price]" required>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">description</label>
-                    <textarea type="text" class="form-control" id="description" name="campground[description]"></textarea>
+                    <textarea type="text" class="form-control" id="description" name="campground[description]" required></textarea>
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-success">Submit</button>
