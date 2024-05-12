@@ -1,57 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const User = require("../models/user");
-const { reviewSchema } = require("../schemas.js");
 const catchAsync = require("../utils/catchAsync");
-const ExpressError = require("../utils/ExpressError");
 const passport = require('passport');
 const { storeReturnTo } = require('../middleware');
+const users = require("../controllers/users.js");
 
-router.get("/register", (req, res)=>{
-    res.render("users/register");
-})
+// Render user registration form 
+router.get("/register", users.renderRegisterForm);
 
-router.post("/register", catchAsync(async(req,res,next)=>{
-    try{
-        const {email, username, password} = req.body;
-        const user = new User({email, username});
-        const registeredUser = await User.register(user, password);
-        req.login(registeredUser, err=> {
-            if(err){
-                return next();
-            }
-            console.log(registeredUser);
-            req.flash("success", "Welcome to Yelp Camp!");
-            res.redirect("/campgrounds");
-        })
-    }
-    catch(e){
-        req.flash('error', e.message);
-        res.redirect('/register');
-    }
+// Create user 
+router.post("/register", catchAsync(users.createUser));
 
-}));
+// Render user login form 
+router.get('/login', users.renderLoginForm);
 
-router.get('/login', (req, res)=>{
-    res.render('users/login')
-});
+// Login
+router.post('/login', storeReturnTo, passport.authenticate('local', {failureFlash:true, failureRedirect: '/login'}),users.login);
 
-router.post('/login', storeReturnTo, passport.authenticate('local', {failureFlash:true, failureRedirect: '/login'}),(req, res)=>{
-    req.flash('success', "Welcome back!")
-    const redirectUrl = res.locals.returnTo || "/campgrounds";
-    delete res.locals.returnTo;
-    res.redirect(redirectUrl);
-});
-
-router.get("/logout", (req, res)=>{
-    req.logout(function (err) {
-        if (err) {
-            return next(err);
-        }
-        req.flash('success', 'Goodbye!');
-        res.redirect('/campgrounds');
-    });
-});
-
+// Logout
+router.get("/logout", users.logout);
 
 module.exports = router;
