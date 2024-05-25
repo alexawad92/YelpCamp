@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 const express = require("express");
 const path = require("path");
 const methodOverride = require("method-override");
@@ -14,6 +18,8 @@ const userRoutes = require("./routes/user");
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
+
+
 // connect to mongo
 mongoose.connect("mongodb://localhost:27017/yelp-camp", {
   useNewUrlParser: true,
