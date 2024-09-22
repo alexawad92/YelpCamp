@@ -38,9 +38,6 @@ const seedDB = async () => {
     const price = Math.floor(Math.random() * 20) + 10;
     const location = `${cities[random1000].city}, ${cities[random1000].state}`;
     const geoData = await GetGeoData(location);
-    console.log("geo data is");
-    console.log(geoData);
-    console.log("++++++");
     const camp = new Campground({
       author: "6640e84633595743e8236152",
       location: location,
