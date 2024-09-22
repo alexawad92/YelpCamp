@@ -1,0 +1,7 @@
+body{
+    height:100hv;
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url("https://res.cloudinary.com/dnpvot84z/image/upload/v1727032678/LandingPageImage_qmb11f.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
