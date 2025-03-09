@@ -19,7 +19,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
-//
+
 // connect to mongo
 mongoose.connect("mongodb://localhost:27017/yelp-camp", {
   useNewUrlParser: true,
