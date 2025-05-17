@@ -1,7 +1,7 @@
+
 if(process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
-
 const express = require("express");
 const path = require("path");
 const methodOverride = require("method-override");
@@ -22,9 +22,9 @@ const User = require('./models/user');
 // connect to mongo
 mongoose.connect("mongodb://localhost:27017/yelp-camp", {
   useNewUrlParser: true,
-  useCreateIndex: true,
+  
   useUnifiedTopology: true,
-  useFindAndModify: false,
+  
 });
 
 const db = mongoose.connection;
