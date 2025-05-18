@@ -1,7 +1,7 @@
 const Campground = require("../models/campground");
 const { cloudinary } = require("../cloudinary");
 const maptilerClient = require("@maptiler/client");
-
+maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 module.exports.index = async (req, res, next) => {
   const campgrounds = await Campground.find({});
   res.render("campgrounds/index", { campgrounds });
@@ -101,6 +101,9 @@ module.exports.updateCampground = async (req, res, next) => {
     ...req.body.campground,
   });
 
+
+  var newlocation = req.body.campground.location;
+  console.log(newlocation);
   const geoData = await maptilerClient.geocoding.forward(
     req.body.campground.location,
     { limit: 1 }

@@ -2,11 +2,11 @@ maptilersdk.config.apiKey = maptilerApiKey;
 
 const map = new maptilersdk.Map({
   container: "map",
-  style: maptilersdk.MapStyle.STREETS.LIGHT,
+  // style: maptilersdk.MapStyle.STREETS.DARK,
   center: campground.geometry.coordinates,
   zoom: 10, // starting zoom
 });
-// map.setStyle(MapStyle.STREETS.DARK);
+map.setStyle(maptilersdk.MapStyle.STREETS.DARK);
 new maptilersdk.Marker()
   .setLngLat(campground.geometry.coordinates)
   .setPopup(

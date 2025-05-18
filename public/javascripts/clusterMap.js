@@ -4,8 +4,9 @@ var map = new maptilersdk.Map({
   container: "map",
   zoom: 0.3,
   center: [0, 20],
-  style: maptilersdk.MapStyle.DATAVIZ.LIGHT,
+  // style: maptilersdk.MapStyle.DATAVIZ.DARK
 });
+map.setStyle(maptilersdk.MapStyle.STREETS.DARK);
 
 map.on("load", function () {
   // add a clustered GeoJSON source for a sample set of earthquakes
