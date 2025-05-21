@@ -2,9 +2,9 @@ console.log(campgrounds);
 maptilersdk.config.apiKey = maptilerApiKey;
 var map = new maptilersdk.Map({
   container: "map",
-  zoom: 0.3,
-  center: [0, 20],
-  // style: maptilersdk.MapStyle.DATAVIZ.DARK
+  zoom: 3.3,
+  geolocateControl: false,
+  center: [-90, 40],
 });
 map.setStyle(maptilersdk.MapStyle.STREETS.DARK);
 

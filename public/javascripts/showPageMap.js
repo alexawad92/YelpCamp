@@ -4,7 +4,8 @@ const map = new maptilersdk.Map({
   container: "map",
   // style: maptilersdk.MapStyle.STREETS.DARK,
   center: campground.geometry.coordinates,
-  zoom: 10, // starting zoom
+  zoom: 5, // starting zoom
+  geolocateControl: false,
 });
 map.setStyle(maptilersdk.MapStyle.STREETS.DARK);
 new maptilersdk.Marker()
